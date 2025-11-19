@@ -1,23 +1,48 @@
-const { DataTypes } = require('sequelize');
-module.exports = (sequelize) => {
-  return sequelize.define('Secretary', {
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    page: { type: DataTypes.STRING },
-    Sidebar: { type: DataTypes.STRING },
-    AppointmentsProps: { type: DataTypes.STRING },
-    Appointments: { type: DataTypes.STRING },
-    DashboardProps: { type: DataTypes.STRING },
-    Dashboard: { type: DataTypes.STRING },
-    PatientManagementProps: { type: DataTypes.STRING },
-    PatientManagement: { type: DataTypes.STRING },
-    currentPage: { type: DataTypes.STRING },
-    SidebarProps: { type: DataTypes.STRING },
-    email: { type: DataTypes.STRING },
-    password: { type: DataTypes.STRING },
-    firstName: { type: DataTypes.STRING },
-    lastName: { type: DataTypes.STRING },
-    phone: { type: DataTypes.STRING },
-    confirmPassword: { type: DataTypes.STRING },
-    acceptTerms: { type: DataTypes.STRING },
-  }, { timestamps: true });
+module.exports = (sequelize, DataTypes) => {
+  const Secretary = sequelize.define(
+    "Secretary",
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+      },
+      phone: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      status: {
+        type: DataTypes.ENUM('active', 'inactive'),
+        defaultValue: 'active'
+      },
+      permissions: {
+        type: DataTypes.JSON,
+        defaultValue: {
+          patientManagement: false,
+          appointmentManagement: false,
+          patientView: false,
+          notifications: false
+        }
+      },
+      createdBy: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      }
+    },
+    {
+      tableName: "secretaries",
+      timestamps: true
+    }
+  );
+
+  return Secretary;
 };

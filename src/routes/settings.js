@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { authenticate, authorizeRole } = require('../middlewares/auth');
-const { listSettings, upsertSetting } = require('../controllers/settingController');
+const { getSettings, updateSettings } = require('../controllers/settingController');
 
-router.get('/', authenticate, listSettings);
-router.post('/', authenticate, authorizeRole(['admin']), upsertSetting);
+router.get('/', authenticate, getSettings);
+router.post('/', authenticate, authorizeRole(['admin']), updateSettings);
 
 module.exports = router;

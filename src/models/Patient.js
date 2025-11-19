@@ -1,63 +1,49 @@
+// models/Patient.js
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  return sequelize.define('Patient', {
-
-    // ✔ ID correct
+  const Patient = sequelize.define('Patient', {
     id: { 
+      type: DataTypes.INTEGER, 
+      primaryKey: true, 
+      autoIncrement: true 
+    },
+    
+    // Lien avec User
+    userId: { 
       type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
+      allowNull: false,
+      references: { model: 'Users', key: 'id' },
+      onDelete: 'CASCADE'
     },
 
-    // ✔ Informations générales
-    firstName: { type: DataTypes.STRING },
-    lastName: { type: DataTypes.STRING },
-    name: { type: DataTypes.STRING },
+    // Supprimer les champs qui existent déjà dans User
     age: { type: DataTypes.INTEGER },
-
     gender: { type: DataTypes.STRING },
-    dateOfBirth: { type: DataTypes.STRING },
-
-    email: { type: DataTypes.STRING },
-    phone: { type: DataTypes.STRING },
-
+    dateOfBirth: { type: DataTypes.DATE },
     address: { type: DataTypes.STRING },
     city: { type: DataTypes.STRING },
     postalCode: { type: DataTypes.STRING },
-
-    // ✔ Informations médicales
-    medicalHistory: { type: DataTypes.STRING },
-    allergies: { type: DataTypes.STRING },
-    currentMedications: { type: DataTypes.STRING },
+    medicalHistory: { type: DataTypes.TEXT },
+    allergies: { type: DataTypes.TEXT },
+    currentMedications: { type: DataTypes.TEXT },
     bloodType: { type: DataTypes.STRING },
-    doctorNotes: { type: DataTypes.STRING },
-
-    // ✔ Contacts d’urgence
+    doctorNotes: { type: DataTypes.TEXT },
     emergencyContact: { type: DataTypes.STRING },
     emergencyPhone: { type: DataTypes.STRING },
+    lastVisit: { type: DataTypes.DATE },
+    nextAppointment: { type: DataTypes.DATE },
+    status: { 
+      type: DataTypes.STRING,
+      defaultValue: 'active'
+    }
 
-    // ✔ Rendez-vous et historique
-    lastVisit: { type: DataTypes.STRING },
-    nextAppointment: { type: DataTypes.STRING },
-    status: { type: DataTypes.STRING },
+    // SUPPRIMER tous ces champs qui sont dans User :
+    // firstName, lastName, email, phone, password, userType, etc.
+  }, { 
+    timestamps: true,
+    tableName: 'Patients'
+  });
 
-    // ✔ Authentification
-    password: { type: DataTypes.STRING },
-
-    // ✔ Divers
-    userType: { type: DataTypes.STRING },
-    Plans: { type: DataTypes.STRING },
-
-    // ✔ Données venant du JSON du front
-    DashboardProps: { type: DataTypes.STRING },
-    Dashboard: { type: DataTypes.STRING },
-    HistoryProps: { type: DataTypes.STRING },
-    History: { type: DataTypes.STRING },
-    Info: { type: DataTypes.STRING },
-    Data: { type: DataTypes.STRING },
-
-    page: { type: DataTypes.STRING },
-
-  }, { timestamps: true });
+  return Patient;
 };
