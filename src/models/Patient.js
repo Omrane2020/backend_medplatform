@@ -36,7 +36,13 @@ module.exports = (sequelize) => {
     status: { 
       type: DataTypes.STRING,
       defaultValue: 'active'
-    }
+    },
+    doctorId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: { model: 'Doctors', key: 'id' },
+      onDelete: 'CASCADE'
+    },
 
     // SUPPRIMER tous ces champs qui sont dans User :
     // firstName, lastName, email, phone, password, userType, etc.
@@ -44,6 +50,12 @@ module.exports = (sequelize) => {
     timestamps: true,
     tableName: 'Patients'
   });
+
+  Patient.associate = (models) => {
+    Patient.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
+    Patient.belongsTo(models.Doctor, { foreignKey: 'doctorId', as: 'doctor' });
+  };
+
 
   return Patient;
 };

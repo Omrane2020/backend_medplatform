@@ -17,6 +17,8 @@ const patientRoutes = require('./routes/patients');
 const logsRoutes = require('./routes/logs');
 const activityRoutes = require('./routes/activity');
 const adminRoutes = require('./routes/admin');
+const appointmentsRoutes= require('./routes/appointments');
+const prescriptionRoutes = require('./routes/prescription');
 const app = express();
 
 // --- Middleware ---
@@ -36,7 +38,8 @@ app.use('/api/patients', patientRoutes);
 app.use('/api/doctors', doctorRoutes);
 app.use('/api/activity', activityRoutes);
 app.use('/api/logs', logsRoutes);
-
+app.use('/api/appointments', appointmentsRoutes);
+app.use('/api/prescriptions', prescriptionRoutes);
 
 // --- ADMIN ROUTES (toujours à la fin !) ---
 app.use('/api/admin', adminRoutes);
